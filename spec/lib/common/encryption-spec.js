@@ -77,25 +77,14 @@ describe('Encryption', function () {
         });
 
         describe('createHash', function () {
-            it('should generate correct hash header', function() {
-                expect(this.subject.createHash('123ABCDEFG__zyz', 'sha512')).to.match(/^\$6\$*/);
-                expect(this.subject.createHash('pbefEFGA_98012-', 'sha256')).to.match(/^\$5\$*/);
-            });
-
             it('should generate correct hash data', function() {
                 var data = "rackhd.github.com";
                 this.subject.createHash(data, 'sha512', '$6$WeJknBPkDab')
-                    .should.equal('$6$WeJknBPkDab$yRRWg5Kr1MCAbKkBtKyKtldb9DFDXidKHj.wQwOKO1TSHUKCvIi7x9QubOenwGfYXoBK0vvwKvNgIlW9Oc6O4.'); //jshint ignore:line
+                    .should.equal('01c24f94085967858d4286fba71445b971350a356beb35ce9664059f5a319bd4c1a0dcb0185e6f0c75c7e00a6bb6411c63ab1f9206cf0f9bcb9053723bb3039e'); //jshint ignore:line
                 this.subject.createHash(data, 'sha256', '$5$WeJknBPkDab')
-                    .should.equal('$5$WeJknBPkDab$t4J3IF.tD9H/2HFDjV.CpFN1ay5rmwa7maVkstEiyv9');
+                    .should.equal('4906cb005427708574da722875ddf97b4a3d296a9620d1c29dcbdaa367bb9097');
             });
         });
 
-        describe('createSalt', function () {
-            it('should generate a password salt for crypt', function () {
-                expect(this.subject.createSalt('sha256', 'HlloWrld')).to.equal('$5$HlloWrld');
-                expect(this.subject.createSalt('sha512', 'HlloWrld')).to.equal('$6$HlloWrld');
-            });
-        });
     });
 });

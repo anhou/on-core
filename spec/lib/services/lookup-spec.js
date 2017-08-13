@@ -63,6 +63,7 @@ describe('Lookup Service', function () {
             adapters: { mongo: {} },
             connections: { mongo: { adapter: 'mongo', url: '' }}
         };
+        return new Promise(function (resolve, reject) {
         WaterlineService.start = sinon.spy(function() {
             var Waterline = helper.injector.get('Waterline');
             WaterlineService.service = new Waterline();
@@ -73,9 +74,16 @@ describe('Lookup Service', function () {
                 _.forOwn(data.collections, function(collection, name) {
                     WaterlineService[name] = collection;
                 });
+                if (err) {
+                    return reject(err);
+                } else {
+                    return resolve();
+                }
             });
         });
+
         WaterlineService.start();
+        });
     });
 
     helper.after();

@@ -288,7 +288,14 @@ describe('Models.Obms', function () {
             return obms.findOne({ service: 'ipmi-obm-service' })
             .then(function(item) {
                 item.config.password = 'saved-password';
-                return item.save();
+                return new Promise(function (resolve, reject) {
+	            item.save(function(err){
+                        if(err)
+                            reject(err);
+                        else
+                            resolve(item);
+		    });
+		});
             })
             .then(function(item) {
                 expect(item.config.password).to.match(Constants.Regex.Encrypted);
